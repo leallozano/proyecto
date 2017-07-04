@@ -5,6 +5,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import java.util.List;
@@ -30,13 +33,16 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
+        
+
         final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.movie_recycler);
+
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         ApiInterface apiService =
                 ApiClient.getClient().create(ApiInterface.class);
 
-        Call<MovieResponse> call = apiService.getTopRatedMovies(API_KEY);
+        Call<MovieResponse> call = apiService.getUpcomingMovies(API_KEY);
         call.enqueue(new Callback<MovieResponse>() {
             @Override
             public void onResponse(Call<MovieResponse>call, Response<MovieResponse> response) {
@@ -52,6 +58,42 @@ public class MainActivity extends AppCompatActivity {
                 Log.e(TAG, t.toString());
             }
         });
+    }
+
+    @Override
+    public boolean  onCreateOptionsMenu(Menu menu){
+
+        getMenuInflater().inflate(R.menu.menu,menu);
+        return  true;
+
+
+    }
+
+    public void ejecutar_class_inf(View v){
+
+        //  Intent intenInf = new Intent(this,Inflate_Menu.class);
+        //  startActivity(intenInf);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem option_item) {
+
+        int opcionMenu = option_item.getItemId();
+
+      /*  if (opcionMenu == R.id.tool_bar)
+        {
+            return  true;
+
+        }
+
+        if(opcionMenu == R.id.){
+
+           // ejecutar_class_inf(null);
+            return true;
+        }
+
+        return super.onOptionsItemSelected(option_item);*/
+        return true;
     }
 
     /*    @Override
