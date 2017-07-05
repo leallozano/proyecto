@@ -4,6 +4,7 @@
 
 package com.example.carlos.proyecto;
 
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
@@ -21,6 +22,8 @@ import java.util.List;
         private String releaseDate;
         @SerializedName("genre_ids")
         private List<Integer> genreIds = new ArrayList<Integer>();
+        @SerializedName("name")
+        private List<String> genreNames = new ArrayList<String>();
         @SerializedName("id")
         private Integer id;
         @SerializedName("original_title")
@@ -40,14 +43,15 @@ import java.util.List;
         @SerializedName("vote_average")
         private Double voteAverage;
 
-        public Movie(String posterPath, boolean adult, String overview, String releaseDate, List<Integer> genreIds, Integer id,
-                     String originalTitle, String originalLanguage, String title, String backdropPath, Double popularity,
+        public Movie(String posterPath, boolean adult, String overview, String releaseDate, List<Integer> genreIds,List<String> genreNames,
+                     Integer id,String originalTitle, String originalLanguage, String title, String backdropPath, Double popularity,
                      Integer voteCount, Boolean video, Double voteAverage) {
             this.posterPath = posterPath;
             this.adult = adult;
             this.overview = overview;
             this.releaseDate = releaseDate;
             this.genreIds = genreIds;
+            this.genreNames = genreNames;
             this.id = id;
             this.originalTitle = originalTitle;
             this.originalLanguage = originalLanguage;
@@ -105,6 +109,14 @@ import java.util.List;
 
         public void setGenreIds(List<Integer> genreIds) {
             this.genreIds = genreIds;
+        }
+
+        public List<String> getGenreNames() {
+            return genreNames;
+        }
+
+        public void setGenreNames(List<String> genreNames) {
+            this.genreNames = genreNames;
         }
 
         public Integer getId() {
@@ -169,6 +181,19 @@ import java.util.List;
 
         public void setVideo(Boolean video) {
             this.video = video;
+        }
+
+
+
+
+        public static class Genre {
+            @SerializedName("name")
+            @Expose
+            private String name;
+
+            public String getName() {
+                return name;
+            }
         }
     }
 

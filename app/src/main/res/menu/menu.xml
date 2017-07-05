@@ -4,25 +4,25 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".MainActivity">
 
-    <item android:id="@+id/idConfiguracion"
-        android:title="Registro"
+    <item android:id="@+id/getPopularMovies"
+        android:title="PopularMovies"
         android:icon="@android:drawable/ic_menu_preferences"
-        app:showAsAction = "always"/>
+        app:showAsAction = "never|withText"/>
 
-    <item android:id="@+id/idInfo"
-        android:title="Informacion"
+    <item android:id="@+id/getTopRatedMovies"
+        android:title="TopRatedMovies"
         android:icon="@android:drawable/ic_menu_add"
         android:orderInCategory="10"
-        app:showAsAction = "always"
+        app:showAsAction = "never|withText"
         />
 
-    <item android:id="@+id/idBuscar"
-        android:title="Buscar"
+    <item android:id="@+id/getUpcomingMovies"
+        android:title="UpcomingMovies"
         android:icon="@android:drawable/ic_search_category_default"
         android:orderInCategory="5"
-        app:showAsAction = "always"/>
+        app:showAsAction = "never|withText"/>
 
-    <item android:id="@+id/idBuscar1"
+    <item android:id="@+id/getMovieDetails"
         android:title="Buscar"
         android:icon="@android:drawable/ic_search_category_default"
         android:orderInCategory="5"

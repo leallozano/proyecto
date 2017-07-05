@@ -33,32 +33,9 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-        
 
-        final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.movie_recycler);
-
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        ApiInterface apiService =
-                ApiClient.getClient().create(ApiInterface.class);
-
-        Call<MovieResponse> call = apiService.getUpcomingMovies(API_KEY);
-        call.enqueue(new Callback<MovieResponse>() {
-            @Override
-            public void onResponse(Call<MovieResponse>call, Response<MovieResponse> response) {
-                List<Movie> movies = response.body().getResults();
-                Log.d(TAG, "Number of movies received: " + movies.size());
-                Toast.makeText(MainActivity.this, "Number of movies received: " + movies.size(), Toast.LENGTH_LONG).show();
-                recyclerView.setAdapter(new MoviesAdapter(movies, R.layout.list_item_movie, getApplicationContext()));
-            }
-
-            @Override
-            public void onFailure(Call<MovieResponse>call, Throwable t) {
-                // Log error here since request failed
-                Log.e(TAG, t.toString());
-            }
-        });
     }
+
 
     @Override
     public boolean  onCreateOptionsMenu(Menu menu){
@@ -76,29 +53,118 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem option_item) {
+    public boolean onOptionsItemSelected(MenuItem item) {
 
-        int opcionMenu = option_item.getItemId();
+        switch (item.getItemId()) {
+            case R.id.getPopularMovies:
+                consulta(1);
 
-      /*  if (opcionMenu == R.id.tool_bar)
-        {
-            return  true;
+            case R.id.getTopRatedMovies:
+                consulta(2);
 
+            case R.id.getUpcomingMovies:
+                consulta(3);
+            case R.id.getMovieDetails:
+                consulta(4);
+            default:
+
+                return super.onOptionsItemSelected(item);
         }
 
-        if(opcionMenu == R.id.){
-
-           // ejecutar_class_inf(null);
-            return true;
-        }
-
-        return super.onOptionsItemSelected(option_item);*/
-        return true;
     }
+
+    private void consulta(int getType) {
+        final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.movie_recycler);
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        ApiInterface apiService =
+                ApiClientRetrofit.getClient().create(ApiInterface.class);
+
+
+
+        if (getType == 1) {
+            Call<MovieResponse> call = apiService.getPopularMovies (API_KEY);
+            call.enqueue(new Callback<MovieResponse>() {
+                @Override
+                public void onResponse(Call<MovieResponse>call, Response<MovieResponse> response) {
+                    List<Movie> movies = response.body().getResults();
+                    Log.d(TAG, "Number of movies received: " + movies.size());
+                    Toast.makeText(MainActivity.this, "Number of movies received: " + movies.size(), Toast.LENGTH_LONG).show();
+                    recyclerView.setAdapter(new Adapter(movies, R.layout.list_item_movie, getApplicationContext()));
+                }
+
+                @Override
+                public void onFailure(Call<MovieResponse>call, Throwable t) {
+                    // Log error here since request failed
+                    Log.e(TAG, t.toString());
+                }
+            });
+
+        } else if (getType == 2) {
+
+            Call<MovieResponse> call = apiService.getTopRatedMovies (API_KEY);
+            call.enqueue(new Callback<MovieResponse>() {
+                @Override
+                public void onResponse(Call<MovieResponse>call, Response<MovieResponse> response) {
+                    List<Movie> movies = response.body().getResults();
+                    Log.d(TAG, "Number of movies received: " + movies.size());
+                    Toast.makeText(MainActivity.this, "Number of movies received: " + movies.size(), Toast.LENGTH_LONG).show();
+                    recyclerView.setAdapter(new Adapter(movies, R.layout.list_item_movie, getApplicationContext()));
+                }
+
+                @Override
+                public void onFailure(Call<MovieResponse>call, Throwable t) {
+                    // Log error here since request failed
+                    Log.e(TAG, t.toString());
+                }
+            });
+
+        } else if (getType == 3) {
+            Call<MovieResponse> call = apiService.getUpcomingMovies (API_KEY);
+            call.enqueue(new Callback<MovieResponse>() {
+                @Override
+                public void onResponse(Call<MovieResponse>call, Response<MovieResponse> response) {
+                    List<Movie> movies = response.body().getResults();
+                    Log.d(TAG, "Number of movies received: " + movies.size());
+                    Toast.makeText(MainActivity.this, "Number of movies received: " + movies.size(), Toast.LENGTH_LONG).show();
+                    recyclerView.setAdapter(new Adapter(movies, R.layout.list_item_movie, getApplicationContext()));
+                }
+
+                @Override
+                public void onFailure(Call<MovieResponse>call, Throwable t) {
+                    // Log error here since request failed
+                    Log.e(TAG, t.toString());
+                }
+            });
+
+
+        }/*else if (getType == 4) {
+            Call<MovieResponse> call = apiService.getMovieDetails (297762,API_KEY);
+            call.enqueue(new Callback<MovieResponse>() {
+                @Override
+                public void onResponse(Call<MovieResponse>call, Response<MovieResponse> response) {
+                    List<Movie> movies = response.body().getResults();
+                    Log.d(TAG, "Number of movies received: " + movies.size());
+                    Toast.makeText(MainActivity.this, "Number of movies received: " + movies.size(), Toast.LENGTH_LONG).show();
+                    recyclerView.setAdapter(new Adapter(movies, R.layout.list_item_movie, getApplicationContext()));
+                }
+
+                @Override
+                public void onFailure(Call<MovieResponse>call, Throwable t) {
+                    // Log error here since request failed
+                    Log.e(TAG, t.toString());
+                }
+            });
+        }*/
+
 
     /*    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
     }*/
+}
+
+
 }

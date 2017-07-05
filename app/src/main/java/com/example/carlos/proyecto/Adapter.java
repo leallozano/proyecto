@@ -3,7 +3,9 @@ package com.example.carlos.proyecto;
 /**
  * Created by Carlos on 7/3/2017.
  */
+
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,9 +16,10 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewHolder> {
+public class Adapter extends RecyclerView.Adapter<Adapter.MovieViewHolder> {
 
     private List<Movie> movies;
     private int rowLayout;
@@ -32,6 +35,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
         ImageView backbg;
 
 
+
         public MovieViewHolder(View v) {
             super(v);
             moviesLayout = (LinearLayout) v.findViewById(R.id.movies_layout);
@@ -43,15 +47,15 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
         }
     }
 
-    public MoviesAdapter(List<Movie> movies, int rowLayout, Context context) {
+    public Adapter(List<Movie> movies, int rowLayout, Context context) {
         this.movies = movies;
         this.rowLayout = rowLayout;
         this.context = context;
     }
 
     @Override
-    public MoviesAdapter.MovieViewHolder onCreateViewHolder(ViewGroup parent,
-                                                            int viewType) {
+    public Adapter.MovieViewHolder onCreateViewHolder(ViewGroup parent,
+                                                      int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(rowLayout, parent, false);
         return new MovieViewHolder(view);
     }
@@ -64,6 +68,31 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
         holder.movieDescription.setText(movies.get(position).getOverview());
         holder.rating.setText(movies.get(position).getVoteAverage().toString());
         Picasso.with(context).load("https://image.tmdb.org/t/p/w300_and_h450_bestv2" + movies.get(position).getBackdropPath()).resize(200, 250).into(holder.backbg);
+
+
+        holder.movieTitle.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(context, Detail.class);
+                i.putExtra("ID", movies.get(position).getId());
+                i.putExtra("Title", movies.get(position).getTitle());
+                i.putExtra("Overview", movies.get(position).getOverview());
+                i.putExtra("Description", movies.get(position).getOverview());
+                i.putExtra("rating", movies.get(position).getVoteAverage().toString());
+                i.putExtra("im",  movies.get(position).getBackdropPath());
+
+                i.putExtra("listName", "Original Lenguage: " + movies.get(position).getOriginalLanguage() + ". Popularity: " + movies.get(position).getPopularity() + ". Vote Count: " + movies.get(position).getVoteCount() );
+
+                i.putIntegerArrayListExtra("list", (ArrayList<Integer>) movies.get(position).getGenreIds());
+                i.putExtra("Estreno",  movies.get(position).getReleaseDate());
+                i.putExtra("poster_path",  movies.get(position).getPosterPath());
+
+                context.startActivity(i);
+                //((MainActivity) context).startActivity(Detail.class,bundle);
+            }
+        });
+
     }
 
     @Override
